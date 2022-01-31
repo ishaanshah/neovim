@@ -13,8 +13,7 @@
     rnix-lsp = { url = "github:nix-community/rnix-lsp"; };
 
     # Vim plugins
-    gruvbox = { url = "github:morhetz/gruvbox"; flake = false; };
-    nord-vim = { url = "github:arcticicestudio/nord-vim"; flake = false; };
+    gruvbox-material = { url = "github:sainnhe/gruvbox-material"; flake = false; };
     vim-startify = { url = "github:mhinz/vim-startify"; flake = false; };
     lightline-vim = { url = "github:itchyny/lightline.vim"; flake = false; };
     nvim-lspconfig = { url = "github:neovim/nvim-lspconfig"; flake = false; };
@@ -45,8 +44,7 @@
   outputs = { self, nixpkgs, neovim, rnix-lsp, ... }@inputs:
   let
     plugins = [
-      "gruvbox"
-      "nord-vim"
+      "gruvbox-material"
       "vim-startify"
       "lightline-vim"
       "nvim-lspconfig"
@@ -107,7 +105,7 @@
           vim.vimAlias = true;
           vim.dashboard.startify.enable = true;
           vim.dashboard.startify.customHeader = [ "NIXOS NEOVIM CONFIG" ];
-          vim.theme.nord.enable = true;
+          vim.theme.gruvbox-material.enable = true;
           vim.disableArrows = true;
           vim.statusline.lightline.enable = true;
           vim.lsp.enable = true;

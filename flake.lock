@@ -63,19 +63,19 @@
         "type": "github"
       }
     },
-    "gruvbox": {
+    "gruvbox-material": {
       "flake": false,
       "locked": {
-        "lastModified": 1593780126,
-        "narHash": "sha256-H8WkOC9NMPXFznv2+dwOj3syNd2sLqszmoMqST/W5hQ=",
-        "owner": "morhetz",
-        "repo": "gruvbox",
-        "rev": "bf2885a95efdad7bd5e4794dd0213917770d79b7",
+        "lastModified": 1643001140,
+        "narHash": "sha256-ALCA594D6NEZif1bvtJ2Ove5A0iZGOreR4xPc9Hkp4I=",
+        "owner": "sainnhe",
+        "repo": "gruvbox-material",
+        "rev": "d043cd49c344e41cd07b19c5252ee31e356c8ebf",
         "type": "github"
       },
       "original": {
-        "owner": "morhetz",
-        "repo": "gruvbox",
+        "owner": "sainnhe",
+        "repo": "gruvbox-material",
         "type": "github"
       }
     },
@@ -211,22 +211,6 @@
         "owner": "nixos",
         "ref": "nixos-21.05",
         "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "nord-vim": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1643147444,
-        "narHash": "sha256-wyLh7NNgbsfaLaqb/29nb/c6OSIQJfAlhxgDtny1JUo=",
-        "owner": "arcticicestudio",
-        "repo": "nord-vim",
-        "rev": "b32592eb0842005d1d25de96e3964ccacd537039",
-        "type": "github"
-      },
-      "original": {
-        "owner": "arcticicestudio",
-        "repo": "nord-vim",
         "type": "github"
       }
     },
@@ -463,13 +447,12 @@
         "completion-nvim": "completion-nvim",
         "editorconfig-vim": "editorconfig-vim",
         "fugitive": "fugitive",
-        "gruvbox": "gruvbox",
+        "gruvbox-material": "gruvbox-material",
         "indent-blankline-nvim": "indent-blankline-nvim",
         "indentline": "indentline",
         "lightline-vim": "lightline-vim",
         "neovim": "neovim",
         "nixpkgs": "nixpkgs",
-        "nord-vim": "nord-vim",
         "nvim-blame-line": "nvim-blame-line",
         "nvim-dap": "nvim-dap",
         "nvim-dap-virtual-text": "nvim-dap-virtual-text",
