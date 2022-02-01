@@ -37,30 +37,30 @@ in {
   config = mkIf cfg.enable {
     vim.startPlugins = with pkgs.neovimPlugins; [ 
       nvim-lspconfig 
-      completion-nvim 
+      nvim-cmp
+      luasnip
+      cmp-nvim-lsp
+      cmp-buffer
+      cmp-path
+      cmp-cmdline
+      cmp-luasnip
       nvim-dap
-      (if cfg.nix then vim-nix else null)
+      # (if cfg.nix then vim-nix else null)
       telescope-dap
-      (if cfg.lightbulb then nvim-lightbulb else null)
-      (if cfg.variableDebugPreviews then nvim-dap-virtual-text else null)
+      # (if cfg.lightbulb then nvim-lightbulb else null)
+      # (if cfg.variableDebugPreviews then nvim-dap-virtual-text else null)
       nvim-treesitter
       nvim-treesitter-context
 
     ];
 
     vim.configRC = ''
-      " Use <Tab> and <S-Tab> to navigate through popup menu
-      inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-      inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-
       " Set completeopt to have a better completion experience
       set completeopt=menuone,noinsert,noselect
 
       ${if cfg.variableDebugPreviews then ''
         let g:dap_virtual_text = v:true
       '' else ""}
-
-      let g:completion_enable_auto_popup = 2
     '';
 
     vim.nnoremap = {
@@ -119,7 +119,6 @@ in {
           c = {"Continue"},
           b = {"Toggle Break Point"},
           r = {"Debug Repl"},
-
         },
       },{ prefix = "<leader>" })
 
@@ -182,16 +181,64 @@ in {
 
       '' else ""}
 
+      -- LSP configuration
+      -- Setup nvim-cmp.
+      local cmp = require'cmp'
+
+      cmp.setup({
+        snippet = {
+          expand = function(args)
+            require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+          end,
+        },
+        mapping = {
+          ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
+          ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
+          ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
+          ['<C-y>'] = cmp.config.disable, -- Specify `cmp.config.disable` if you want to remove the default `<C-y>` mapping.
+          ['<C-e>'] = cmp.mapping({
+            i = cmp.mapping.abort(),
+            c = cmp.mapping.close(),
+          }),
+          ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+        },
+        sources = cmp.config.sources({
+          { name = 'nvim_lsp' },
+          { name = 'luasnip' }, -- For luasnip users.
+        }, {
+          { name = 'buffer' },
+        })
+      })
+
+      -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
+      cmp.setup.cmdline('/', {
+        sources = {
+          { name = 'buffer' }
+        }
+      })
+
+      -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+      cmp.setup.cmdline(':', {
+        sources = cmp.config.sources({
+          { name = 'path' }
+        }, {
+          { name = 'cmdline' }
+        })
+      })
+
+      -- Setup lspconfig.
+      local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+
       ${if cfg.bash then ''
         lspconfig.bashls.setup{
-          on_attach=require'completion'.on_attach;
+          capabilities = capabilities;
           cmd = {"${pkgs.nodePackages.bash-language-server}/bin/bash-language-server", "start"}
         }
       '' else ""}
 
       ${if cfg.go then ''
         lspconfig.gopls.setup{
-          on_attach=require'completion'.on_attach;
+          capabilities = capabilities;
           cmd = {"${pkgs.gopls}/bin/gopls"}
         } 
 
@@ -244,63 +291,63 @@ in {
 
       ${if cfg.nix then ''
         lspconfig.rnix.setup{
-          on_attach=require'completion'.on_attach;
+          capabilities = capabilities;
           cmd = {"${pkgs.rnix-lsp}/bin/rnix-lsp"}
         }
       '' else ""}
 
       ${if cfg.ruby then ''
         lspconfig.solargraph.setup{
-          on_attach=require'completion'.on_attach;
+          capabilities = capabilities;
           cmd = {'${pkgs.solargraph}/bin/solargraph', 'stdio'}
         }
       '' else ""}
 
       ${if cfg.rust then ''
         lspconfig.rust_analyzer.setup{
-          on_attach=require'completion'.on_attach;
+          capabilities = capabilities;
           cmd = {'${pkgs.rust-analyzer}/bin/rust-analyzer'}
         }
       '' else ""}
 
       ${if cfg.terraform then ''
         lspconfig.terraformls.setup{
-          on_attach=require'completion'.on_attach;
+          capabilities = capabilities;
           cmd = {'${pkgs.terraform-ls}/bin/terraform-ls', 'serve' }
         }
       '' else ""}
 
       ${if cfg.typescript then ''
         lspconfig.tsserver.setup{
-          on_attach=require'completion'.on_attach;
+          capabilities = capabilities;
           cmd = {'${pkgs.nodePackages.typescript-language-server}/bin/typescript-language-server', '--stdio' }
         }
       '' else ""}
 
       ${if cfg.vimscript then ''
         lspconfig.vimls.setup{
-          on_attach=require'completion'.on_attach;
+          capabilities = capabilities;
           cmd = {'${pkgs.nodePackages.vim-language-server}/bin/vim-language-server', '--stdio' }
         }
       '' else ""}
 
       ${if cfg.yaml then ''
         lspconfig.vimls.setup{
-          on_attach=require'completion'.on_attach;
+          capabilities = capabilities;
           cmd = {'${pkgs.nodePackages.yaml-language-server}/bin/yaml-language-server', '--stdio' }
         }
       '' else ""}
 
       ${if cfg.docker then ''
         lspconfig.dockerls.setup{
-          on_attach=require'completion'.on_attach;
+          capabilities = capabilities;
           cmd = {'${pkgs.nodePackages.dockerfile-language-server-nodejs}/bin/docker-language-server', '--stdio' }
         }
       '' else ""}
 
       ${if cfg.css then ''
         lspconfig.cssls.setup{
-          on_attach=require'completion'.on_attach;
+          capabilities = capabilities;
           cmd = {'${pkgs.nodePackages.vscode-css-languageserver-bin}/bin/css-languageserver', '--stdio' };
           filetypes = { "css", "scss", "less" }; 
         }
@@ -308,7 +355,7 @@ in {
 
       ${if cfg.html then ''
         lspconfig.html.setup{
-          on_attach=require'completion'.on_attach;
+          capabilities = capabilities;
           cmd = {'${pkgs.nodePackages.vscode-html-languageserver-bin}/bin/html-languageserver', '--stdio' };
           filetypes = { "html", "css", "javascript" }; 
         }
@@ -316,7 +363,7 @@ in {
 
       ${if cfg.json then ''
         lspconfig.jsonls.setup{
-          on_attach=require'completion'.on_attach;
+          capabilities = capabilities;
           cmd = {'${pkgs.nodePackages.vscode-json-languageserver-bin}/bin/json-languageserver', '--stdio' };
           filetypes = { "html", "css", "javascript" }; 
         }
@@ -324,14 +371,14 @@ in {
 
       ${if cfg.tex then ''
         lspconfig.texlab.setup{
-          on_attach=require'completion'.on_attach;
+          capabilities = capabilities;
           cmd = {'${pkgs.texlab}/bin/texlab'}
         }
       '' else ""}
 
       ${if cfg.clang then ''
         lspconfig.clangd.setup{
-          on_attach=require'completion'.on_attach;
+          capabilities = capabilities;
           cmd = {'${pkgs.clang-tools}/bin/clangd', '--background-index'};
           filetypes = { "c", "cpp", "objc", "objcpp" };
         }
@@ -339,7 +386,7 @@ in {
 
       ${if cfg.cmake then ''
         lspconfig.cmake.setup{
-          on_attach=require'completion'.on_attach;
+          capabilities = capabilities;
           cmd = {'${pkgs.cmake-language-server}/bin/cmake-language-server'};
           filetypes = { "cmake"};
         }
@@ -347,7 +394,7 @@ in {
 
       ${if cfg.python then ''
         lspconfig.pyright.setup{
-          on_attach=require'completion'.on_attach;
+          capabilities = capabilities;
           cmd = {"${pkgs.nodePackages.pyright}/bin/pyright-langserver", "--stdio"}
         }
 

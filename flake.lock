@@ -1,18 +1,82 @@
 {
   "nodes": {
-    "completion-nvim": {
+    "cmp-buffer": {
       "flake": false,
       "locked": {
-        "lastModified": 1634068787,
-        "narHash": "sha256-6um9dye0MLY8K8AAsDksCpy1KbMNSdMuj+zKteSAxR4=",
-        "owner": "nvim-lua",
-        "repo": "completion-nvim",
-        "rev": "87b0f86da3dffef63b42845049c648b5d90f1c4d",
+        "lastModified": 1641254550,
+        "narHash": "sha256-LXNckOkSqRMFWJhBaPUm8el0SgTS2XPvg3N8CEwHLHw=",
+        "owner": "hrsh7th",
+        "repo": "cmp-buffer",
+        "rev": "f83773e2f433a923997c5faad7ea689ec24d1785",
         "type": "github"
       },
       "original": {
-        "owner": "nvim-lua",
-        "repo": "completion-nvim",
+        "owner": "hrsh7th",
+        "repo": "cmp-buffer",
+        "type": "github"
+      }
+    },
+    "cmp-cmdline": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1638355837,
+        "narHash": "sha256-BkMvtwkLnT0tnLn9F+vt3vtmAQOBVFwFC3YF7ZsE8Hs=",
+        "owner": "hrsh7th",
+        "repo": "cmp-cmdline",
+        "rev": "29ca81a6f0f288e6311b3377d9d9684d22eac2ec",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hrsh7th",
+        "repo": "cmp-cmdline",
+        "type": "github"
+      }
+    },
+    "cmp-luasnip": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1641154010,
+        "narHash": "sha256-vkDOW0882wG22z1s4npjGPUJyHd5boW8KWDIoy+WrjI=",
+        "owner": "saadparwaiz1",
+        "repo": "cmp_luasnip",
+        "rev": "d6f837f4e8fe48eeae288e638691b91b97d1737f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "saadparwaiz1",
+        "repo": "cmp_luasnip",
+        "type": "github"
+      }
+    },
+    "cmp-nvim-lsp": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1642242623,
+        "narHash": "sha256-itlKrCBo8wMNBCknW+7INOyVmwbcwmkGLzpc2lvvqk4=",
+        "owner": "hrsh7th",
+        "repo": "cmp-nvim-lsp",
+        "rev": "ebdfc204afb87f15ce3d3d3f5df0b8181443b5ba",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hrsh7th",
+        "repo": "cmp-nvim-lsp",
+        "type": "github"
+      }
+    },
+    "cmp-path": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1642430705,
+        "narHash": "sha256-qKPYOW+Nid3CdFJfeU1JVb9zaDZAk2F/WQ4ddjNDRnk=",
+        "owner": "hrsh7th",
+        "repo": "cmp-path",
+        "rev": "c5230cb439df9547294678d0f1c1465ad7989e5f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hrsh7th",
+        "repo": "cmp-path",
         "type": "github"
       }
     },
@@ -127,6 +191,22 @@
         "type": "github"
       }
     },
+    "luasnip": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1643400059,
+        "narHash": "sha256-PCp+akGP2zzHd1eQBidEbSrz8Jbib5muuYp4qLTs3iw=",
+        "owner": "L3MON4D3",
+        "repo": "LuaSnip",
+        "rev": "35322c97b041542f95c85e87a8215892ea4137d5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "L3MON4D3",
+        "repo": "LuaSnip",
+        "type": "github"
+      }
+    },
     "naersk": {
       "inputs": {
         "nixpkgs": "nixpkgs_2"
@@ -227,6 +307,22 @@
       "original": {
         "owner": "tveskag",
         "repo": "nvim-blame-line",
+        "type": "github"
+      }
+    },
+    "nvim-cmp": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1643701654,
+        "narHash": "sha256-GIxn5hCG+iaFxFxgKkglATK3IuGugsVet8IPbaw4MNc=",
+        "owner": "hrsh7th",
+        "repo": "nvim-cmp",
+        "rev": "124f1611f1b7cd9fb2892f0597881e007c99b652",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hrsh7th",
+        "repo": "nvim-cmp",
         "type": "github"
       }
     },
@@ -444,16 +540,22 @@
     },
     "root": {
       "inputs": {
-        "completion-nvim": "completion-nvim",
+        "cmp-buffer": "cmp-buffer",
+        "cmp-cmdline": "cmp-cmdline",
+        "cmp-luasnip": "cmp-luasnip",
+        "cmp-nvim-lsp": "cmp-nvim-lsp",
+        "cmp-path": "cmp-path",
         "editorconfig-vim": "editorconfig-vim",
         "fugitive": "fugitive",
         "gruvbox-material": "gruvbox-material",
         "indent-blankline-nvim": "indent-blankline-nvim",
         "indentline": "indentline",
         "lualine-nvim": "lualine-nvim",
+        "luasnip": "luasnip",
         "neovim": "neovim",
         "nixpkgs": "nixpkgs",
         "nvim-blame-line": "nvim-blame-line",
+        "nvim-cmp": "nvim-cmp",
         "nvim-dap": "nvim-dap",
         "nvim-dap-virtual-text": "nvim-dap-virtual-text",
         "nvim-lightbulb": "nvim-lightbulb",
