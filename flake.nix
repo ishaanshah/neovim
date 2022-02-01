@@ -14,8 +14,8 @@
 
     # Vim plugins
     gruvbox-material = { url = "github:sainnhe/gruvbox-material"; flake = false; };
-    vim-startify = { url = "github:mhinz/vim-startify"; flake = false; };
-    lightline-vim = { url = "github:itchyny/lightline.vim"; flake = false; };
+    # dasboard-nvim = { url = "github:glepnir/dashboard-nvim"; flake = false; };
+    lualine-nvim = { url = "github:nvim-lualine/lualine.nvim"; flake = false; };
     nvim-lspconfig = { url = "github:neovim/nvim-lspconfig"; flake = false; };
     completion-nvim = { url = "github:nvim-lua/completion-nvim"; flake = false; };
     vim-nix = { url = "github:LnL7/vim-nix"; flake = false; };
@@ -45,8 +45,8 @@
   let
     plugins = [
       "gruvbox-material"
-      "vim-startify"
-      "lightline-vim"
+      # "dashboard-nvim"
+      "lualine-nvim"
       "nvim-lspconfig"
       "completion-nvim"
       "vim-nix"
@@ -103,11 +103,10 @@
         config = {
           vim.viAlias = true;
           vim.vimAlias = true;
-          vim.dashboard.startify.enable = true;
-          vim.dashboard.startify.customHeader = [ "NIXOS NEOVIM CONFIG" ];
+          # vim.dashboard.enable = true;
           vim.theme.gruvbox-material.enable = true;
           vim.disableArrows = true;
-          vim.statusline.lightline.enable = true;
+          vim.statusline.lualine.enable = true;
           vim.lsp.enable = true;
           vim.lsp.bash = true;
           vim.lsp.go = true;
