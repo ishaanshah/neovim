@@ -42,7 +42,6 @@
     editorconfig-vim = { url = "github:editorconfig/editorconfig-vim"; flake = false; };
     indentline = { url = "github:Yggdroot/indentLine"; flake = false; };
     indent-blankline-nvim = { url = "github:lukas-reineke/indent-blankline.nvim"; flake = false; };
-    nvim-blame-line = { url = "github:tveskag/nvim-blame-line"; flake = false; };
     nvim-dap-virtual-text = { url = "github:theHamsta/nvim-dap-virtual-text"; flake = false; };
     vim-cursorword = { url = "github:itchyny/vim-cursorword"; flake = false; };
     vim-test = { url = "github:vim-test/vim-test"; flake = false; };
@@ -79,7 +78,6 @@
         "editorconfig-vim"
         "indent-blankline-nvim"
         "indentline"
-        "nvim-blame-line"
         "nvim-dap-virtual-text"
         "vim-cursorword"
         "vim-test"

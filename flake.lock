@@ -294,22 +294,6 @@
         "type": "github"
       }
     },
-    "nvim-blame-line": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1627412395,
-        "narHash": "sha256-jSK/Jo9bh/++DLOV9QhjwUxDtSBljSnY4gLPBfDJ2+o=",
-        "owner": "tveskag",
-        "repo": "nvim-blame-line",
-        "rev": "198d131a3ae8033a98759f43d024b80821974113",
-        "type": "github"
-      },
-      "original": {
-        "owner": "tveskag",
-        "repo": "nvim-blame-line",
-        "type": "github"
-      }
-    },
     "nvim-cmp": {
       "flake": false,
       "locked": {
@@ -554,7 +538,6 @@
         "luasnip": "luasnip",
         "neovim": "neovim",
         "nixpkgs": "nixpkgs",
-        "nvim-blame-line": "nvim-blame-line",
         "nvim-cmp": "nvim-cmp",
         "nvim-dap": "nvim-dap",
         "nvim-dap-virtual-text": "nvim-dap-virtual-text",
