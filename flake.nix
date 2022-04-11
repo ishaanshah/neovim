@@ -37,7 +37,6 @@
     vimagit = { url = "github:jreybert/vimagit"; flake = false; };
     fugitive = { url = "github:tpope/vim-fugitive"; flake = false; };
     nvim-lightbulb = { url = "github:kosayoda/nvim-lightbulb"; flake = false; };
-    nvim-treesitter = { url = "github:nvim-treesitter/nvim-treesitter"; flake = false; };
     nvim-treesitter-context = { url = "github:romgrk/nvim-treesitter-context"; flake = false; };
     editorconfig-vim = { url = "github:editorconfig/editorconfig-vim"; flake = false; };
     indentline = { url = "github:Yggdroot/indentLine"; flake = false; };
@@ -73,7 +72,6 @@
         "vimagit"
         "fugitive"
         "nvim-lightbulb"
-        "nvim-treesitter"
         "nvim-treesitter-context"
         "editorconfig-vim"
         "indent-blankline-nvim"

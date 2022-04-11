@@ -1,4 +1,4 @@
-{ pkgs, config, lib, ...}:
+{ pkgs, config, lib, ... }:
 with lib;
 with builtins;
 
@@ -34,9 +34,9 @@ in {
 
   };
 
-  config = mkIf cfg.enable {
-    vim.startPlugins = with pkgs.neovimPlugins; [ 
-      nvim-lspconfig 
+  config = let
+    customPlugins = with pkgs.neovimPlugins; [
+      nvim-lspconfig
       nvim-cmp
       luasnip
       cmp-nvim-lsp
@@ -49,10 +49,12 @@ in {
       telescope-dap
       # (if cfg.lightbulb then nvim-lightbulb else null)
       # (if cfg.variableDebugPreviews then nvim-dap-virtual-text else null)
-      nvim-treesitter
       nvim-treesitter-context
-
     ];
+    nixpkgsPlugins = with pkgs.vimPlugins;
+      [ (nvim-treesitter.withPlugins (plugins: pkgs.tree-sitter.allGrammars)) ];
+  in mkIf cfg.enable {
+    vim.startPlugins = customPlugins ++ nixpkgsPlugins;
 
     vim.configRC = ''
       " Set completeopt to have a better completion experience
@@ -60,17 +62,21 @@ in {
 
       ${if cfg.variableDebugPreviews then ''
         let g:dap_virtual_text = v:true
-      '' else ""}
+      '' else
+        ""}
     '';
 
     vim.nnoremap = {
       #"<f2>" = "<cmd>lua vim.lsp.buf.rename()<cr>";
       "<leader>cR" = "<cmd>lua vim.lsp.buf.rename()<cr>";
       "<leader>cr" = "<cmd>lua require'telescope.builtin'.lsp_references()<CR>";
-      "<leader>ca" = "<cmd>lua require'telescope.builtin'.lsp_code_actions()<CR>";
+      "<leader>ca" =
+        "<cmd>lua require'telescope.builtin'.lsp_code_actions()<CR>";
 
-      "<leader>cd" = "<cmd>lua require'telescope.builtin'.lsp_definitions()<cr>";
-      "<leader>ci" = "<cmd>lua require'telescope.builtin'.lsp_implementations()<cr>";
+      "<leader>cd" =
+        "<cmd>lua require'telescope.builtin'.lsp_definitions()<cr>";
+      "<leader>ci" =
+        "<cmd>lua require'telescope.builtin'.lsp_implementations()<cr>";
       #"<leader>e" = "<cmd>lua require'telescope.builtin'.lsp_document_diagnostics()<cr>";
       #"<leader>E" = "<cmd>lua require'telescope.builtin'.lsp_workspace_diagnostics()<cr>";
       "<leader>cf" = "<cmd>lua vim.lsp.buf.formatting()<CR>";
@@ -95,8 +101,7 @@ in {
       #"<leader>df" = "<cmd>Telescope dap frames<cr>";
     };
 
-    vim.globals = {
-    };
+    vim.globals = { };
 
     vim.luaConfigRC = ''
       local wk = require("which-key")
@@ -179,7 +184,8 @@ in {
           }
         }
 
-      '' else ""}
+      '' else
+        ""}
 
       -- LSP configuration
       -- Setup nvim-cmp.
@@ -235,116 +241,126 @@ in {
           capabilities = capabilities;
           cmd = {"${pkgs.nodePackages.bash-language-server}/bin/bash-language-server", "start"}
         }
-      '' else ""}
+      '' else
+        ""}
 
       ${if cfg.go then ''
-        lspconfig.gopls.setup{
-          capabilities = capabilities;
-          cmd = {"${pkgs.gopls}/bin/gopls"}
-        } 
+         lspconfig.gopls.setup{
+           capabilities = capabilities;
+           cmd = {"${pkgs.gopls}/bin/gopls"}
+         } 
 
-        dap.adapters.go = function(callback, config)
-          local handle
-          local pid_or_err
-          local port = 38697
-          handle, pid_or_err =
-            vim.loop.spawn(
-            "dlv",
-            {
-              args = {"dap", "-l", "127.0.0.1:" .. port},
-              detached = true
-            },
-            function(code)
-              handle:close()
-              print("Delve exited with exit code: " .. code)
-            end
-          )
-          -- Wait 100ms for delve to start
-          vim.defer_fn(
-            function()
-              --dap.repl.open()
-              callback({type = "server", host = "127.0.0.1", port = port})
-            end,
-            100)
-
-
-          --callback({type = "server", host = "127.0.0.1", port = port})
-        end
-        -- https://github.com/go-delve/delve/blob/master/Documentation/usage/dlv_dap.md
-        dap.configurations.go = {
-          {
-            type = "go",
-            name = "Debug",
-            request = "launch",
-            program = "${"$"}{workspaceFolder}"
-          },
-          {
-            type = "go",
-            name = "Debug test", -- configuration for debugging test files
-            request = "launch",
-            mode = "test",
-            program = "${"$"}{workspaceFolder}"
-          },
-       }
+         dap.adapters.go = function(callback, config)
+           local handle
+           local pid_or_err
+           local port = 38697
+           handle, pid_or_err =
+             vim.loop.spawn(
+             "dlv",
+             {
+               args = {"dap", "-l", "127.0.0.1:" .. port},
+               detached = true
+             },
+             function(code)
+               handle:close()
+               print("Delve exited with exit code: " .. code)
+             end
+           )
+           -- Wait 100ms for delve to start
+           vim.defer_fn(
+             function()
+               --dap.repl.open()
+               callback({type = "server", host = "127.0.0.1", port = port})
+             end,
+             100)
 
 
-      '' else ""}
+           --callback({type = "server", host = "127.0.0.1", port = port})
+         end
+         -- https://github.com/go-delve/delve/blob/master/Documentation/usage/dlv_dap.md
+         dap.configurations.go = {
+           {
+             type = "go",
+             name = "Debug",
+             request = "launch",
+             program = "${"$"}{workspaceFolder}"
+           },
+           {
+             type = "go",
+             name = "Debug test", -- configuration for debugging test files
+             request = "launch",
+             mode = "test",
+             program = "${"$"}{workspaceFolder}"
+           },
+        }
+
+
+      '' else
+        ""}
 
       ${if cfg.nix then ''
         lspconfig.rnix.setup{
           capabilities = capabilities;
           cmd = {"${pkgs.rnix-lsp}/bin/rnix-lsp"}
         }
-      '' else ""}
+      '' else
+        ""}
 
       ${if cfg.ruby then ''
         lspconfig.solargraph.setup{
           capabilities = capabilities;
           cmd = {'${pkgs.solargraph}/bin/solargraph', 'stdio'}
         }
-      '' else ""}
+      '' else
+        ""}
 
       ${if cfg.rust then ''
         lspconfig.rust_analyzer.setup{
           capabilities = capabilities;
           cmd = {'${pkgs.rust-analyzer}/bin/rust-analyzer'}
         }
-      '' else ""}
+      '' else
+        ""}
 
       ${if cfg.terraform then ''
         lspconfig.terraformls.setup{
           capabilities = capabilities;
           cmd = {'${pkgs.terraform-ls}/bin/terraform-ls', 'serve' }
         }
-      '' else ""}
+      '' else
+        ""}
 
       ${if cfg.typescript then ''
         lspconfig.tsserver.setup{
           capabilities = capabilities;
           cmd = {'${pkgs.nodePackages.typescript-language-server}/bin/typescript-language-server', '--stdio' }
         }
-      '' else ""}
+      '' else
+        ""}
 
       ${if cfg.vimscript then ''
         lspconfig.vimls.setup{
           capabilities = capabilities;
           cmd = {'${pkgs.nodePackages.vim-language-server}/bin/vim-language-server', '--stdio' }
         }
-      '' else ""}
+      '' else
+        ""}
 
       ${if cfg.yaml then ''
         lspconfig.vimls.setup{
           capabilities = capabilities;
           cmd = {'${pkgs.nodePackages.yaml-language-server}/bin/yaml-language-server', '--stdio' }
         }
-      '' else ""}
+      '' else
+        ""}
 
       ${if cfg.docker then ''
         lspconfig.dockerls.setup{
           capabilities = capabilities;
           cmd = {'${pkgs.nodePackages.dockerfile-language-server-nodejs}/bin/docker-language-server', '--stdio' }
         }
-      '' else ""}
+      '' else
+        ""}
 
       ${if cfg.css then ''
         lspconfig.cssls.setup{
@@ -352,7 +368,8 @@ in {
           cmd = {'${pkgs.nodePackages.vscode-css-languageserver-bin}/bin/css-languageserver', '--stdio' };
           filetypes = { "css", "scss", "less" }; 
         }
-      '' else ""}
+      '' else
+        ""}
 
       ${if cfg.html then ''
         lspconfig.html.setup{
@@ -360,7 +377,8 @@ in {
           cmd = {'${pkgs.nodePackages.vscode-html-languageserver-bin}/bin/html-languageserver', '--stdio' };
           filetypes = { "html", "css", "javascript" }; 
         }
-      '' else ""}
+      '' else
+        ""}
 
       ${if cfg.json then ''
         lspconfig.jsonls.setup{
@@ -368,14 +386,16 @@ in {
           cmd = {'${pkgs.nodePackages.vscode-json-languageserver-bin}/bin/json-languageserver', '--stdio' };
           filetypes = { "html", "css", "javascript" }; 
         }
-      '' else ""}
+      '' else
+        ""}
 
       ${if cfg.tex then ''
         lspconfig.texlab.setup{
           capabilities = capabilities;
           cmd = {'${pkgs.texlab}/bin/texlab'}
         }
-      '' else ""}
+      '' else
+        ""}
 
       ${if cfg.clang then ''
         lspconfig.clangd.setup{
@@ -383,7 +403,8 @@ in {
           cmd = {'${pkgs.clang-tools}/bin/clangd', '--background-index'};
           filetypes = { "c", "cpp", "objc", "objcpp" };
         }
-      '' else ""}
+      '' else
+        ""}
 
       ${if cfg.cmake then ''
         lspconfig.cmake.setup{
@@ -391,7 +412,8 @@ in {
           cmd = {'${pkgs.cmake-language-server}/bin/cmake-language-server'};
           filetypes = { "cmake"};
         }
-      '' else ""}
+      '' else
+        ""}
 
       ${if cfg.python then ''
         lspconfig.pyright.setup{
@@ -399,7 +421,8 @@ in {
           cmd = {"${pkgs.nodePackages.pyright}/bin/pyright-langserver", "--stdio"}
         }
 
-      '' else ""}
+      '' else
+        ""}
 
     '';
   };
