@@ -27,6 +27,7 @@
     cmp-luasnip = { url = "github:saadparwaiz1/cmp_luasnip"; flake = false; };
     # TODO: completion for LaTeX symbols
     vim-nix = { url = "github:LnL7/vim-nix"; flake = false; };
+    vim-glsl = { url = "github:tikhomirov/vim-glsl"; flake = false; };
     nvim-dap = { url = "github:mfussenegger/nvim-dap"; flake = false; };
     nvim-telescope = { url = "github:nvim-telescope/telescope.nvim"; flake = false; };
     telescope-dap = { url = "github:nvim-telescope/telescope-dap.nvim"; flake = false; };
@@ -61,6 +62,7 @@
         "cmp-cmdline"
         "cmp-luasnip"
         "nvim-lspconfig"
+        "vim-glsl"
         "vim-nix"
         "nvim-dap"
         "nvim-telescope"
