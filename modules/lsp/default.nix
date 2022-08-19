@@ -31,7 +31,6 @@ in {
 
     lightbulb = mkEnableOption "Enable Light Bulb";
     variableDebugPreviews = mkEnableOption "Enable variable previews";
-
   };
 
   config = let
@@ -77,11 +76,11 @@ in {
         "<cmd>lua require'telescope.builtin'.lsp_definitions()<cr>";
       "<leader>ci" =
         "<cmd>lua require'telescope.builtin'.lsp_implementations()<cr>";
-      #"<leader>e" = "<cmd>lua require'telescope.builtin'.lsp_document_diagnostics()<cr>";
-      #"<leader>E" = "<cmd>lua require'telescope.builtin'.lsp_workspace_diagnostics()<cr>";
+      "<leader>e" = "<cmd>lua require'telescope.builtin'.lsp_document_diagnostics()<cr>";
+      "<leader>E" = "<cmd>lua require'telescope.builtin'.lsp_workspace_diagnostics()<cr>";
       "<leader>cf" = "<cmd>lua vim.lsp.buf.formatting()<CR>";
       "<leader>ck" = "<cmd>lua vim.lsp.buf.signature_help()<CR>";
-      #"<leader>K" = "<cmd>lua vim.lsp.buf.hover()<CR>";
+      "<leader>K" = "<cmd>lua vim.lsp.buf.hover()<CR>";
 
       #"[d" = "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>";
       #"]d" = "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>";

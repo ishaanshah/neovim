@@ -119,7 +119,7 @@
           vim.vimAlias = true;
           # vim.dashboard.enable = true;
           vim.theme.gruvbox-material.enable = true;
-          vim.disableArrows = true;
+          vim.disableArrows = false;
           vim.statusline.lualine.enable = true;
           vim.lsp.enable = true;
           vim.lsp.bash = true;
